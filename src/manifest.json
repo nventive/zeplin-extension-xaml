@@ -1,0 +1,92 @@
+{
+    "name": "XAML",
+    "description": "Generates UWP XAML resources from colors and text styles.",
+    "version": "0.1.0",
+    "author": {
+        "name": "nventive",
+        "email": "info@nventive.com",
+        "url": "http://nventive.com"
+    },
+    "repository": "https://github.com/nventive/zeplin-extension-xaml",
+    "moduleURL": "./main.js",
+    "options": [
+        {
+            "name": "Sort colors by name",
+            "type": "switch",
+            "id": "sortColors",
+            "default": true
+        },
+        {
+            "name": "Filter colors by name (regex)",
+            "type": "text",
+            "id": "colorsFilter",
+            "default": ""
+        },
+        {
+            "name": "Sort  text styles by name",
+            "type": "switch",
+            "id": "sortTextStyles",
+            "default": true
+        },
+        {
+            "name": "Filter text styles by name (regex)",
+            "type": "text",
+            "id": "textStylesFilter",
+            "default": ""
+        },
+        {
+            "name": "Default font family (won't generate setter)",
+            "type": "text",
+            "id": "defaultFontFamily",
+            "default": ""
+        },
+        {
+            "name": "Generate CharacterSpacing setter",
+            "type": "switch",
+            "id": "generateCharacterSpacing",
+            "default": true
+        },
+        {
+            "name": "Generate FontFamily setter",
+            "type": "switch",
+            "id": "generateFontFamily",
+            "default": true
+        },
+        {
+            "name": "Generate FontSize setter",
+            "type": "switch",
+            "id": "generateFontSize",
+            "default": true
+        },
+        {
+            "name": "Generate FontStyle setter",
+            "type": "switch",
+            "id": "generateFontStyle",
+            "default": true
+        },
+        {
+            "name": "Generate FontWeight setter",
+            "type": "switch",
+            "id": "generateFontWeight",
+            "default": true
+        },
+        {
+            "name": "Generate Foreground setter",
+            "type": "switch",
+            "id": "generateForeground",
+            "default": true
+        },
+        {
+            "name": "Generate LineHeight setter",
+            "type": "switch",
+            "id": "generateLineHeight",
+            "default": true
+        },
+        {
+            "name": "Generate TextAlignment setter",
+            "type": "switch",
+            "id": "generateTextAlignment",
+            "default": true
+        }
+    ]
+}
