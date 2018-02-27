@@ -43,7 +43,9 @@ function xamlColor(color) {
 }
 
 function xamlPointLiteral(point) {
-    return `${point.x},${point.y}`;
+    const x = _.round(point.x, 2);
+    const y = _.round(point.y, 2);
+    return `${x},${y}`;
 }
 
 function xamlGradientStop(context, gradientStop) {
