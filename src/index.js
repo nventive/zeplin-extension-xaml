@@ -51,6 +51,13 @@ function xamlFontWeight(fontWeight) {
     }
 }
 
+function xamlCharacterSpacing(letterSpacing) {
+    // LetterSpacing is in points
+    // CharacterSpacing is in units of 1/1000 of an em
+    // 1 em = 12 points
+    return Math.round(letterSpacing / 12 * 1000);
+}
+
 function xamlStyle(context, textStyle) {
     const ignoreCharacterSpacing = context.getOption('ignoreCharacterSpacing');
     const ignoreLineHeight = context.getOption('ignoreLineHeight');
@@ -66,7 +73,7 @@ function xamlStyle(context, textStyle) {
         foreground: foreground,
         fontFamily: !isDefaultFontFamily && textStyle.fontFamily,
         fontSize: _.round(textStyle.fontSize, 2),
-        characterSpacing: !ignoreCharacterSpacing && _.round(textStyle.letterSpacing, 2),
+        characterSpacing: !ignoreCharacterSpacing && xamlCharacterSpacing(textStyle.letterSpacing),
         fontStyle: _.capitalize(textStyle.fontStyle),
         fontWeight: xamlFontWeight(textStyle.fontWeight),
         lineHeight: !ignoreLineHeight && _.round(textStyle.lineHeight, 2),
