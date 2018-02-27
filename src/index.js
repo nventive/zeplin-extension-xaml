@@ -13,6 +13,11 @@ function debug(object) {
     };
 }
 
+function actualKey(context, key) {
+    const duplicateSuffix = context.getOption('duplicateSuffix');
+    return key.replace(duplicateSuffix, '');
+}
+
 function xamlColorHex(color) {
     const hex = color.toHex();
     const a = Math.round(color.a * 255).toString(16);
@@ -25,13 +30,13 @@ function xamlColorHex(color) {
 function xamlColorLiteral(context, color) {
     const colorResource = context.project.findColorEqual(color);
     return colorResource ?
-        `{StaticResource ${colorResource.name}}` : xamlColorHex(color);
+        `{StaticResource ${actualKey(context, colorResource.name)}}` : xamlColorHex(color);
 }
 
 function xamlSolidColorBrushLiteral(context, color) {
     const colorResource = context.project.findColorEqual(color);
     return colorResource ?
-        `{StaticResource ${colorResource.name}Brush}` : xamlColorHex(color);
+        `{StaticResource ${actualKey(context, colorResource.name)}Brush}` : xamlColorHex(color);
 }
 
 function xamlColor(color) {
@@ -94,25 +99,25 @@ function xamlCharacterSpacing(letterSpacing) {
 }
 
 function xamlStyle(context, textStyle) {
+    const addCharacterEllipsis = context.getOption('addCharacterEllipsis');
     const ignoreCharacterSpacing = context.getOption('ignoreCharacterSpacing');
+    const ignoreFontFamily = context.getOption('ignoreFontFamily')
     const ignoreLineHeight = context.getOption('ignoreLineHeight');
     const textAlignmentMode = context.getOption('textAlignmentMode');
     const hasTextAlignment = textAlignmentMode === 'style';
-    const defaultFontFamily = context.getOption('defaultFontFamily');
-    const isDefaultFontFamily = textStyle.fontFamily === defaultFontFamily;
     const foreground = textStyle.color && xamlSolidColorBrushLiteral(context, textStyle.color);
 
     return {
         key: textStyle.name,
-        style: textStyle.name,
         foreground: foreground,
-        fontFamily: !isDefaultFontFamily && textStyle.fontFamily,
+        fontFamily: !ignoreFontFamily && textStyle.fontFamily,
         fontSize: _.round(textStyle.fontSize, 2),
         characterSpacing: !ignoreCharacterSpacing && xamlCharacterSpacing(textStyle.letterSpacing),
         fontStyle: _.capitalize(textStyle.fontStyle),
         fontWeight: xamlFontWeight(textStyle.fontWeight),
         lineHeight: !ignoreLineHeight && _.round(textStyle.lineHeight, 2),
         textAlignment: hasTextAlignment && _.capitalize(textStyle.textAlign),
+        textTrimming: addCharacterEllipsis && 'CharacterEllipsis',
     };
 }
 
@@ -122,7 +127,7 @@ function xamlTextBlock(context, textLayer) {
     const textStyle = textLayer.textStyles[0].textStyle;
     const textStyleResource = context.project.findTextStyleEqual(textStyle);
     const textBlock = textStyleResource ?
-        { style: textStyleResource.name } : xamlStyle(context, textStyle);
+        { style: actualKey(context, textStyleResource.name) } : xamlStyle(context, textStyle);
 
     textBlock.text = textLayer.content;
     textBlock.textAlignment = hasTextAlignment && _.capitalize(textStyle.textAlign);
@@ -151,35 +156,34 @@ function comment(context, text) {
 
 function styleguideColors(context, colors) {
     const sortResources = context.getOption('sortResources');
-    const colorsFilter = context.getOption('colorsFilter');
-
+    const duplicateSuffix = context.getOption('duplicateSuffix');
+    
     if (sortResources) {
         colors = _.sortBy(colors, 'name');
     }
-
-    if (colorsFilter) {
-        const regex = new RegExp(colorsFilter);
-        colors = colors.filter(color => regex.test(color.name));
+    
+    if (duplicateSuffix) {
+        colors = colors.filter(color => !color.name.endsWith(duplicateSuffix));
     }
-
+    
     const code = colorsTemplate({
         colors: colors.map(xamlColor),
         solidColorBrushes: colors.map(xamlSolidColorBrush)
     });
-
+    
     return xamlCode(code);
 }
 
 function styleguideTextStyles(context, textStyles) {
     const sortResources = context.getOption('sortResources');
-    const textStylesFilter = context.getOption('textStylesFilter');
+    const duplicateSuffix = context.getOption('duplicateSuffix');
+
     if (sortResources) {
         textStyles = _.sortBy(textStyles, 'name');
     }
 
-    if (textStylesFilter) {
-        const regex = new RegExp(textStylesFilter);
-        textStyles = textStyles.filter(textStyle => regex.test(textStyle.name));
+    if (duplicateSuffix) {
+        textStyles = textStyles.filter(textStyle => !textStyle.name.endsWith(duplicateSuffix));
     }
 
     const code = textStylesTemplate({
