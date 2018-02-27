@@ -1,7 +1,9 @@
 import _ from 'lodash';
+import indentString from 'indent-string';
 import colorsTemplate from './templates/colors.mustache';
 import textStylesTemplate from './templates/textStyles.mustache';
 import textBlockTemplate from './templates/textBlock.mustache';
+import resourceDictionaryTemplate from './templates/resourceDictionary.mustache';
 
 function xamlColorHex(color) {
     const hex = color.toHex();
@@ -14,7 +16,7 @@ function xamlColorHex(color) {
 
 function xamlColorLiteral(context, color) {
     const colorResource = context.project.findColorEqual(color);
-    return colorResource ? 
+    return colorResource ?
         `{StaticResource ${colorResource.name}Brush}` : xamlColorHex(color);
 }
 
@@ -40,7 +42,7 @@ function xamlStyle(context, textStyle) {
     const defaultFontFamily = context.getOption('defaultFontFamily');
     const isDefaultFontFamily = textStyle.fontFamily === defaultFontFamily;
     const foreground = textStyle.color && xamlColorLiteral(context, textStyle.color);
-    
+
     return {
         key: textStyle.name,
         style: textStyle.name,
@@ -60,9 +62,9 @@ function xamlTextBlock(context, textLayer) {
     const hasTextAlignment = textAlignmentMode === 'textBlock';
     const textStyle = textLayer.textStyles[0].textStyle;
     const textStyleResource = context.project.findTextStyleEqual(textStyle);
-    const textBlock = textStyleResource ? 
+    const textBlock = textStyleResource ?
         { style: textStyleResource.name } : xamlStyle(context, textStyle);
-    
+
     textBlock.text = textLayer.content;
     textBlock.textAlignment = hasTextAlignment && _.capitalize(textStyle.textAlign);
 
@@ -103,12 +105,12 @@ function styleguideTextStyles(context, textStyles) {
     if (sortResources) {
         textStyles = _.sortBy(textStyles, 'name');
     }
-    
+
     if (textStylesFilter) {
         const regex = new RegExp(textStylesFilter);
         textStyles = textStyles.filter(textStyle => regex.test(textStyle.name));
     }
-    
+
     const code = textStylesTemplate({
         styles: textStyles.map(textStyle => xamlStyle(context, textStyle))
     });
@@ -119,10 +121,32 @@ function styleguideTextStyles(context, textStyles) {
     };
 }
 
+function exportStyleguideColors(context, colors) {
+    var resources = indentString(styleguideColors(context, colors).code, 4);
+    var resourceDictionary = resourceDictionaryTemplate({ resources });
+
+    return {
+        code: resourceDictionary,
+        language: 'xml',
+        filename: 'Colors.xaml'
+    };
+}
+
+function exportStyleguideTextStyles(context, textStyles) {
+    var resources = indentString(styleguideTextStyles(context, textStyles).code, 4);
+    var resourceDictionary = resourceDictionaryTemplate({ resources });
+
+    return {
+        code: resourceDictionary,
+        language: 'xml',
+        filename: 'TextBlock.xaml'
+    };
+}
+
 function layer(context, selectedLayer) {
     if (selectedLayer.type === 'text') {
         const textBlock = xamlTextBlock(context, selectedLayer);
-        const code =  textBlockTemplate(textBlock);
+        const code = textBlockTemplate(textBlock);
 
         return {
             code,
@@ -135,6 +159,8 @@ const extension = {
     comment,
     styleguideColors,
     styleguideTextStyles,
+    exportStyleguideColors,
+    exportStyleguideTextStyles,
     layer,
 }
 
