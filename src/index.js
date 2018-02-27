@@ -5,6 +5,7 @@ import textStylesTemplate from './templates/textStyles.mustache';
 import textBlockTemplate from './templates/textBlock.mustache';
 import resourceDictionaryTemplate from './templates/resourceDictionary.mustache';
 import linearGradientBrushTemplate from './templates/linearGradientBrush.mustache';
+import imageTemplate from './templates/image.mustache';
 
 function debug(object) {
     return {
@@ -122,6 +123,14 @@ function xamlTextBlock(context, textLayer) {
     return textBlock;
 }
 
+function xamlImage(imageLayer) {
+    return {
+        source: `ms-appx:///Assets/${imageLayer.name}.png`,
+        width: imageLayer.rect.width,
+        height: imageLayer.rect.height,
+    };
+}
+
 function xamlCode(code) {
     return {
         code,
@@ -198,7 +207,9 @@ function layer(context, selectedLayer) {
         const textBlock = xamlTextBlock(context, selectedLayer);
         const code = textBlockTemplate(textBlock);
         return xamlCode(code);
-    } else if (selectedLayer.type === 'shape') {
+    }
+
+    if (selectedLayer.type === 'shape') {
         const linearGradient = selectedLayer.fills
             .filter(fill => fill.type === 'gradient')
             .map(fill => fill.gradient)
@@ -206,6 +217,12 @@ function layer(context, selectedLayer) {
         if (linearGradient) {
             const linearGradientBrush = xamlLinearGradientBrush(context, linearGradient);
             const code = linearGradientBrushTemplate(linearGradientBrush);
+            return xamlCode(code);
+        }
+
+        if (selectedLayer.exportable) {
+            const image = xamlImage(selectedLayer);
+            const code = imageTemplate(image);
             return xamlCode(code);
         }
     }
