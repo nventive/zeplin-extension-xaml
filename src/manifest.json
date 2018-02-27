@@ -11,82 +11,56 @@
     "moduleURL": "./main.js",
     "options": [
         {
-            "name": "Sort colors by name",
+            "name": "Sort resources",
             "type": "switch",
-            "id": "sortColors",
+            "id": "sortResources",
             "default": true
         },
         {
-            "name": "Filter colors by name (regex)",
+            "name": "Filter colors (regex)",
             "type": "text",
             "id": "colorsFilter",
             "default": ""
         },
         {
-            "name": "Sort  text styles by name",
-            "type": "switch",
-            "id": "sortTextStyles",
-            "default": true
-        },
-        {
-            "name": "Filter text styles by name (regex)",
+            "name": "Filter text styles (regex)",
             "type": "text",
             "id": "textStylesFilter",
             "default": ""
         },
         {
-            "name": "Default font family (won't generate setter)",
+            "name": "Default FontFamily",
             "type": "text",
             "id": "defaultFontFamily",
             "default": ""
         },
         {
-            "name": "Generate CharacterSpacing setter",
-            "type": "switch",
-            "id": "generateCharacterSpacing",
-            "default": true
+            "name": "TextAlignment",
+            "type": "picker",
+            "id": "textAlignmentMode",
+            "default": "textBlock",
+            "options": [
+                {
+                    "name": "TextBlock",
+                    "value": "textBlock"
+                },
+                {
+                    "name": "Style",
+                    "value": "style"
+                }
+            ]
         },
         {
-            "name": "Generate FontFamily setter",
+            "name": "Ignore CharacterSpacing",
             "type": "switch",
-            "id": "generateFontFamily",
-            "default": true
+            "id": "ignoreCharacterSpacing",
+            "default": false
         },
         {
-            "name": "Generate FontSize setter",
+            "name": "Ignore LineHeight",
             "type": "switch",
-            "id": "generateFontSize",
-            "default": true
-        },
-        {
-            "name": "Generate FontStyle setter",
-            "type": "switch",
-            "id": "generateFontStyle",
-            "default": true
-        },
-        {
-            "name": "Generate FontWeight setter",
-            "type": "switch",
-            "id": "generateFontWeight",
-            "default": true
-        },
-        {
-            "name": "Generate Foreground setter",
-            "type": "switch",
-            "id": "generateForeground",
-            "default": true
-        },
-        {
-            "name": "Generate LineHeight setter",
-            "type": "switch",
-            "id": "generateLineHeight",
-            "default": true
-        },
-        {
-            "name": "Generate TextAlignment setter",
-            "type": "switch",
-            "id": "generateTextAlignment",
-            "default": true
+            "id": "ignoreLineHeight",
+            "default": false
         }
     ]
 }
