@@ -26,6 +26,12 @@ function xamlColorHex(color) {
 function xamlColorLiteral(context, color) {
     const colorResource = context.project.findColorEqual(color);
     return colorResource ?
+        `{StaticResource ${colorResource.name}}` : xamlColorHex(color);
+}
+
+function xamlSolidColorBrushLiteral(context, color) {
+    const colorResource = context.project.findColorEqual(color);
+    return colorResource ?
         `{StaticResource ${colorResource.name}Brush}` : xamlColorHex(color);
 }
 
@@ -43,7 +49,7 @@ function xamlPointLiteral(point) {
 function xamlGradientStop(context, gradientStop) {
     return {
         offset: gradientStop.position,
-        color: xamlColorLiteral(context, gradientStop.color), // TODO: Resource
+        color: xamlColorLiteral(context, gradientStop.color),
     };
 }
 
@@ -93,7 +99,7 @@ function xamlStyle(context, textStyle) {
     const hasTextAlignment = textAlignmentMode === 'style';
     const defaultFontFamily = context.getOption('defaultFontFamily');
     const isDefaultFontFamily = textStyle.fontFamily === defaultFontFamily;
-    const foreground = textStyle.color && xamlColorLiteral(context, textStyle.color);
+    const foreground = textStyle.color && xamlSolidColorBrushLiteral(context, textStyle.color);
 
     return {
         key: textStyle.name,
