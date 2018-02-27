@@ -34,6 +34,23 @@ function xamlSolidColorBrush(color) {
     };
 }
 
+function xamlFontWeight(fontWeight) {
+    switch (fontWeight) {
+        case 100: return 'Thin';
+        case 200: return 'ExtraLight';
+        case 300: return 'Light';
+        case 350: return 'SemiLight';
+        case 400: return 'Normal';
+        case 500: return 'Medium';
+        case 600: return 'SemiBold';
+        case 700: return 'Bold';
+        case 800: return 'ExtraBold';
+        case 900: return 'Black';
+        case 950: return 'ExtraBlack';
+        default: return 'Normal';
+    }
+}
+
 function xamlStyle(context, textStyle) {
     const ignoreCharacterSpacing = context.getOption('ignoreCharacterSpacing');
     const ignoreLineHeight = context.getOption('ignoreLineHeight');
@@ -51,7 +68,7 @@ function xamlStyle(context, textStyle) {
         fontSize: _.round(textStyle.fontSize, 2),
         characterSpacing: !ignoreCharacterSpacing && _.round(textStyle.letterSpacing, 2),
         fontStyle: _.capitalize(textStyle.fontStyle),
-        fontWeight: _.capitalize(textStyle.weightText),
+        fontWeight: xamlFontWeight(textStyle.fontWeight),
         lineHeight: !ignoreLineHeight && _.round(textStyle.lineHeight, 2),
         textAlignment: hasTextAlignment && _.capitalize(textStyle.textAlign),
     };
