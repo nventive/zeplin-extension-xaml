@@ -12,6 +12,9 @@
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.4.2",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.7.0",
     "mustache-loader": "^1.4.0",
     "webpack": "^3.0.0",
     "webpack-cli": "^2.0.9"
