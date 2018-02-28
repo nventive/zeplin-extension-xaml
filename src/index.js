@@ -151,26 +151,26 @@ function xamlFile(code, filename) {
 }
 
 function comment(context, text) {
-    return text;
+    return `<!-- ${text} -->`;
 }
 
 function styleguideColors(context, colors) {
     const sortResources = context.getOption('sortResources');
     const duplicateSuffix = context.getOption('duplicateSuffix');
-    
+
     if (sortResources) {
         colors = _.sortBy(colors, 'name');
     }
-    
+
     if (duplicateSuffix) {
         colors = colors.filter(color => !color.name.endsWith(duplicateSuffix));
     }
-    
+
     const code = colorsTemplate({
         colors: colors.map(xamlColor),
         solidColorBrushes: colors.map(xamlSolidColorBrush)
     });
-    
+
     return xamlCode(code);
 }
 
