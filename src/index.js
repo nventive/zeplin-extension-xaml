@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import round from 'lodash/round';
+import capitalize from 'lodash/capitalize';
+import sortBy from 'lodash/sortBy';
 import indentString from 'indent-string';
 import colorsTemplate from './templates/colors.mustache';
 import textStylesTemplate from './templates/textStyles.mustache';
@@ -47,8 +49,8 @@ function xamlColor(color) {
 }
 
 function xamlPointLiteral(point) {
-    const x = _.round(point.x, 2);
-    const y = _.round(point.y, 2);
+    const x = round(point.x, 2);
+    const y = round(point.y, 2);
     return `${x},${y}`;
 }
 
@@ -111,12 +113,12 @@ function xamlStyle(context, textStyle) {
         key: textStyle.name,
         foreground: foreground,
         fontFamily: !ignoreFontFamily && textStyle.fontFamily,
-        fontSize: _.round(textStyle.fontSize, 2),
+        fontSize: round(textStyle.fontSize, 2),
         characterSpacing: !ignoreCharacterSpacing && xamlCharacterSpacing(textStyle.letterSpacing),
-        fontStyle: _.capitalize(textStyle.fontStyle),
+        fontStyle: capitalize(textStyle.fontStyle),
         fontWeight: xamlFontWeight(textStyle.fontWeight),
-        lineHeight: !ignoreLineHeight && _.round(textStyle.lineHeight, 2),
-        textAlignment: hasTextAlignment && _.capitalize(textStyle.textAlign),
+        lineHeight: !ignoreLineHeight && round(textStyle.lineHeight, 2),
+        textAlignment: hasTextAlignment && capitalize(textStyle.textAlign),
         textTrimming: addCharacterEllipsis && 'CharacterEllipsis',
     };
 }
@@ -130,7 +132,7 @@ function xamlTextBlock(context, textLayer) {
         { style: actualKey(context, textStyleResource.name) } : xamlStyle(context, textStyle);
 
     textBlock.text = textLayer.content;
-    textBlock.textAlignment = hasTextAlignment && _.capitalize(textStyle.textAlign);
+    textBlock.textAlignment = hasTextAlignment && capitalize(textStyle.textAlign);
 
     return textBlock;
 }
@@ -151,26 +153,26 @@ function xamlFile(code, filename) {
 }
 
 function comment(context, text) {
-    return text;
+    return `<!-- ${text} -->`;
 }
 
 function styleguideColors(context, colors) {
     const sortResources = context.getOption('sortResources');
     const duplicateSuffix = context.getOption('duplicateSuffix');
-    
+
     if (sortResources) {
-        colors = _.sortBy(colors, 'name');
+        colors = sortBy(colors, 'name');
     }
-    
+
     if (duplicateSuffix) {
         colors = colors.filter(color => !color.name.endsWith(duplicateSuffix));
     }
-    
+
     const code = colorsTemplate({
         colors: colors.map(xamlColor),
         solidColorBrushes: colors.map(xamlSolidColorBrush)
     });
-    
+
     return xamlCode(code);
 }
 
@@ -179,7 +181,7 @@ function styleguideTextStyles(context, textStyles) {
     const duplicateSuffix = context.getOption('duplicateSuffix');
 
     if (sortResources) {
-        textStyles = _.sortBy(textStyles, 'name');
+        textStyles = sortBy(textStyles, 'name');
     }
 
     if (duplicateSuffix) {
