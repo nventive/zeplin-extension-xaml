@@ -1,6 +1,6 @@
 {
     "name": "XAML",
-    "description": "Generates UWP XAML resources from colors and text styles.",
+    "description": "Generates XAML (Universal Windows Platform) snippets and resources from colors, text styles and layers.",
     "version": "0.1.0",
     "author": {
         "name": "nventive",

@@ -1,6 +1,6 @@
 # XAML Zeplin Extension
 
-[Zeplin extension](https://extensions.zeplin.io/) that generates UWP XAML resources from colors and text styles.
+[Zeplin extension](https://extensions.zeplin.io/) that generates XAML (Universal Windows Platform) snippets and resources from colors, text styles and layers.
 
 ## Getting Started
 
