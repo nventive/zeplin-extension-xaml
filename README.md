@@ -2,6 +2,8 @@
 
 [Zeplin extension](https://extensions.zeplin.io/) that generates XAML (Universal Windows Platform) snippets from colors, text styles and layers.
 
+It is open source and [available on GitHub](https://github.com/nventive/zeplin-extension-xaml).
+
 ## Samples
 
 Sample colors output:
