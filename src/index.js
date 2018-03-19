@@ -17,7 +17,7 @@ function debug(object) { // eslint-disable-line no-unused-vars
 
 function actualKey(context, key) {
   const duplicateSuffix = context.getOption('duplicateSuffix');
-  return key.replace(duplicateSuffix, '');
+  return key.replace(duplicateSuffix, '').replace(/\s/g, '');
 }
 
 function xamlColorHex(color) {
@@ -40,9 +40,9 @@ function xamlSolidColorBrushLiteral(context, color) {
     : xamlColorHex(color);
 }
 
-function xamlColor(color) {
+function xamlColor(context, color) {
   return {
-    key: color.name,
+    key: actualKey(context, color.name),
     color: xamlColorHex(color),
   };
 }
@@ -68,10 +68,10 @@ function xamlLinearGradientBrush(context, linearGradientBrush) {
   };
 }
 
-function xamlSolidColorBrush(color) {
+function xamlSolidColorBrush(context, color) {
   return {
-    key: `${color.name}Brush`,
-    color: `{StaticResource ${color.name}}`,
+    key: `${actualKey(context, color.name)}Brush`,
+    color: `{StaticResource ${actualKey(context, color.name)}}`,
   };
 }
 
@@ -109,7 +109,7 @@ function xamlStyle(context, textStyle) {
   const foreground = textStyle.color && xamlSolidColorBrushLiteral(context, textStyle.color);
 
   return {
-    key: textStyle.name,
+    key: actualKey(context, textStyle.name),
     foreground,
     fontFamily: !ignoreFontFamily && textStyle.fontFamily,
     fontSize: round(textStyle.fontSize, 2),
@@ -169,8 +169,8 @@ function styleguideColors(context, colors) {
   }
 
   const code = colorsTemplate({
-    colors: processedColors.map(xamlColor),
-    solidColorBrushes: processedColors.map(xamlSolidColorBrush),
+    colors: processedColors.map(color => xamlColor(context, color)),
+    solidColorBrushes: processedColors.map(color => xamlSolidColorBrush(context, color)),
   });
 
   return xamlCode(code);
