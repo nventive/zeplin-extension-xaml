@@ -1,89 +1,93 @@
 {
-  "name": "zeplin-extension-xaml",
-  "version": "0.1.0",
-  "description": "Generates XAML (Universal Windows Platform) snippets from colors, text styles and layers.",
-  "author": {
-    "name": "nventive",
-    "url": "http://nventive.com"
-  },
-  "license": "Apache-2.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nventive/zeplin-extension-xaml"
-  },
-  "scripts": {
-    "start": "zem start",
-    "build": "zem build",
-    "clean": "zem clean",
-    "exec": "zem exec"
-  },
-  "devDependencies": {
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.7.0",
-    "mustache-loader": "^1.4.0",
-    "zem": "^0.1.2"
-  },
-  "dependencies": {
-    "indent-string": "^3.2.0",
-    "lodash": "^4.17.5",
-    "mustache": "^2.3.0"
-  },
-  "zeplin": {
-    "displayName": "XAML",
-    "projectTypes": ["web", "android", "ios"],
-    "options": [
-      {
-          "name": "Sort styleguide resources",
-          "type": "switch",
-          "id": "sortResources",
-          "default": true
-      },
-      {
-          "name": "Consolidate duplicates (specify suffix)",
-          "type": "text",
-          "id": "duplicateSuffix",
-          "default": ""
-      },
-      {
-          "name": "Define TextAlignment on",
-          "type": "picker",
-          "id": "textAlignmentMode",
-          "default": "textBlock",
-          "options": [
-              {
-                  "name": "TextBlock",
-                  "value": "textBlock"
-              },
-              {
-                  "name": "Style",
-                  "value": "style"
-              }
-          ]
-      },
-      {
-          "name": "Ignore CharacterSpacing",
-          "type": "switch",
-          "id": "ignoreCharacterSpacing",
-          "default": false
-      },
-      {
-          "name": "Ignore FontFamily",
-          "type": "switch",
-          "id": "ignoreFontFamily",
-          "default": false
-      },
-      {
-          "name": "Ignore LineHeight",
-          "type": "switch",
-          "id": "ignoreLineHeight",
-          "default": false
-      },
-      {
-          "name": "Add TextTrimming.CharacterEllipsis to all text styles",
-          "type": "switch",
-          "id": "addCharacterEllipsis",
-          "default": true
-      }
-    ]
-  }
+    "name": "zeplin-extension-xaml",
+    "version": "0.1.0",
+    "description": "Generates XAML (Universal Windows Platform) snippets from colors, text styles and layers.",
+    "author": {
+        "name": "nventive",
+        "url": "http://nventive.com"
+    },
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nventive/zeplin-extension-xaml"
+    },
+    "scripts": {
+        "start": "zem start",
+        "build": "zem build",
+        "clean": "zem clean",
+        "exec": "zem exec"
+    },
+    "devDependencies": {
+        "eslint-config-airbnb-base": "^12.1.0",
+        "eslint-plugin-import": "^2.7.0",
+        "mustache-loader": "^1.4.0",
+        "zem": "^0.1.2"
+    },
+    "dependencies": {
+        "indent-string": "^3.2.0",
+        "lodash": "^4.17.5",
+        "mustache": "^2.3.0"
+    },
+    "zeplin": {
+        "displayName": "XAML",
+        "projectTypes": [
+            "web",
+            "android",
+            "ios"
+        ],
+        "options": [
+            {
+                "name": "Sort styleguide resources",
+                "type": "switch",
+                "id": "sortResources",
+                "default": true
+            },
+            {
+                "name": "Consolidate duplicates (specify suffix)",
+                "type": "text",
+                "id": "duplicateSuffix",
+                "default": ""
+            },
+            {
+                "name": "Define TextAlignment on",
+                "type": "picker",
+                "id": "textAlignmentMode",
+                "default": "textBlock",
+                "options": [
+                    {
+                        "name": "TextBlock",
+                        "value": "textBlock"
+                    },
+                    {
+                        "name": "Style",
+                        "value": "style"
+                    }
+                ]
+            },
+            {
+                "name": "Ignore CharacterSpacing",
+                "type": "switch",
+                "id": "ignoreCharacterSpacing",
+                "default": false
+            },
+            {
+                "name": "Ignore FontFamily",
+                "type": "switch",
+                "id": "ignoreFontFamily",
+                "default": false
+            },
+            {
+                "name": "Ignore LineHeight",
+                "type": "switch",
+                "id": "ignoreLineHeight",
+                "default": false
+            },
+            {
+                "name": "Add TextTrimming.CharacterEllipsis to all text styles",
+                "type": "switch",
+                "id": "addCharacterEllipsis",
+                "default": true
+            }
+        ]
+    }
 }
